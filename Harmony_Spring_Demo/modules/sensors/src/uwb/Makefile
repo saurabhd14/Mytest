@@ -1,0 +1,23 @@
+CC = g++
+CFLAGS = -Wall
+LIBS = -lmraa -lm -lstdc++ 
+DEPS = device/dw1000.h application/two_way_ranging.h utils/utils.h uwb_loc/uwb_hs.h
+OBJ = build/dw1000.o build/two_way_ranging.o build/utils.o build/uwb_hs.o build/main.o
+
+build/dw1000.o: device/dw1000.cpp $(DEPS)
+	$(CC) $(CFLAGS) -c device/dw1000.cpp -o build/dw1000.o
+
+build/two_way_ranging.o: application/two_way_ranging.cpp $(DEPS)
+	$(CC) $(CFLAGS) -c application/two_way_ranging.cpp -o build/two_way_ranging.o
+
+build/utils.o: utils/utils.cpp $(DEPS)
+	$(CC) $(CFLAGS) -c utils/utils.cpp -o build/utils.o
+	
+build/uwb_hs.o: uwb_loc/uwb_hs.cpp $(DEPS)
+	$(CC) $(CFLAGS) -c uwb_loc/uwb_hs.cpp -o build/uwb_hs.o
+
+build/main.o: main.cpp $(DEPS)
+	$(CC) $(CFLAGS) -c main.cpp -o build/main.o
+
+deca: $(OBJ)
+	gcc $(CFLAGS) $(LIBS) -o $@ $^
